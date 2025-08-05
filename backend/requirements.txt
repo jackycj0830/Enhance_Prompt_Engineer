@@ -18,6 +18,9 @@ transformers==4.36.2
 torch==2.1.1
 nltk==3.8.1
 spacy==3.7.2
+tiktoken==0.5.2
+numpy==1.24.3
+scikit-learn==1.3.2
 
 # 任务队列
 celery==5.3.4

@@ -3,7 +3,7 @@ API v1 路由
 """
 
 from fastapi import APIRouter
-from .endpoints import auth, users, prompts, analysis, optimization, templates
+from .endpoints import auth, users, prompts, analysis, optimization, templates, models
 
 api_router = APIRouter()
 
@@ -14,6 +14,7 @@ api_router.include_router(prompts.router, prefix="/prompts", tags=["提示词管
 api_router.include_router(analysis.router, prefix="/analysis", tags=["提示词分析"])
 api_router.include_router(optimization.router, prefix="/optimization", tags=["优化建议"])
 api_router.include_router(templates.router, prefix="/templates", tags=["模板管理"])
+api_router.include_router(models.router, prefix="/models", tags=["AI模型管理"])
 
 @api_router.get("/")
 async def api_v1_info():
@@ -28,6 +29,7 @@ async def api_v1_info():
             "prompts": "/api/v1/prompts",
             "analysis": "/api/v1/analysis", 
             "optimization": "/api/v1/optimization",
-            "templates": "/api/v1/templates"
+            "templates": "/api/v1/templates",
+            "models": "/api/v1/models"
         }
     }
