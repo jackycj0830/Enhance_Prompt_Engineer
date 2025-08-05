@@ -9,7 +9,9 @@ import Dashboard from './pages/Dashboard'
 import PromptManagement from './pages/PromptManagement'
 import TemplateManagement from './pages/TemplateManagement'
 import MonitoringPage from './pages/MonitoringPage'
+import PWAInstall from './components/PWAInstall'
 import './App.css'
+import './styles/mobile.css'
 
 const { Content } = Layout
 
@@ -21,6 +23,17 @@ const AppInitializer: React.FC<{ children: React.ReactNode }> = ({ children }) =
     const initialize = async () => {
       try {
         await initializeAuth()
+
+        // 注册Service Worker
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration)
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError)
+            })
+        }
       } catch (error) {
         console.error('应用初始化失败:', error)
       } finally {
@@ -106,6 +119,9 @@ const App: React.FC = () => {
             </Routes>
           </Content>
         </Layout>
+
+        {/* PWA安装组件 */}
+        <PWAInstall />
       </AppInitializer>
     </Router>
   )

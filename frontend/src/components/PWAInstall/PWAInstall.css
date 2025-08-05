@@ -1,0 +1,400 @@
+/* PWA安装组件样式 */
+
+/* 浮动安装按钮 */
+.pwa-install-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  animation: slideInUp 0.5s ease-out;
+}
+
+.pwa-install-fab .ant-btn {
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.4);
+  border: none;
+  height: 48px;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pwa-install-fab .ant-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(24, 144, 255, 0.5);
+}
+
+/* 安装模态框 */
+.pwa-install-modal .ant-modal-content {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pwa-install-modal .ant-modal-header {
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  border-bottom: none;
+  padding: 20px 24px;
+}
+
+.pwa-install-modal .ant-modal-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.pwa-install-modal .ant-modal-close {
+  color: #fff;
+  opacity: 0.8;
+}
+
+.pwa-install-modal .ant-modal-close:hover {
+  opacity: 1;
+}
+
+.pwa-install-modal .ant-modal-body {
+  padding: 24px;
+}
+
+/* 安装内容 */
+.pwa-install-content {
+  text-align: center;
+}
+
+/* 应用信息卡片 */
+.app-info-card {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 0;
+}
+
+.app-info-card .ant-card-body {
+  padding: 16px;
+}
+
+.app-icon {
+  text-align: center;
+}
+
+.app-icon img {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* iOS安装步骤 */
+.ios-install-steps {
+  text-align: left;
+}
+
+.ios-install-steps .ant-steps {
+  margin-bottom: 20px;
+}
+
+.ios-install-steps .ant-steps-item-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ios-install-steps .ant-steps-item-description {
+  font-size: 12px;
+  color: #666;
+}
+
+.ios-install-demo {
+  text-align: center;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+/* Android安装步骤 */
+.android-install-steps {
+  text-align: left;
+}
+
+.install-benefits {
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.install-benefits .ant-typography {
+  margin-bottom: 12px;
+  color: #389e0d;
+}
+
+.install-benefits ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.install-benefits li {
+  margin-bottom: 8px;
+  color: #52c41a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.install-benefits li:last-child {
+  margin-bottom: 0;
+}
+
+/* 操作按钮 */
+.install-actions {
+  margin-top: 24px;
+}
+
+.install-actions .ant-btn {
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.install-actions .ant-btn-primary {
+  background: linear-gradient(135deg, #52c41a 0%, #389e0d 100%);
+  border: none;
+}
+
+.install-actions .ant-btn-primary:hover {
+  background: linear-gradient(135deg, #73d13d 0%, #52c41a 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
+}
+
+/* 隐私说明 */
+.privacy-notice {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+  text-align: center;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .pwa-install-fab {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .pwa-install-fab .ant-btn {
+    height: 44px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+
+  .pwa-install-modal {
+    margin: 0;
+    padding: 0;
+    max-width: 100vw;
+  }
+
+  .pwa-install-modal .ant-modal-content {
+    border-radius: 0;
+    min-height: 100vh;
+  }
+
+  .pwa-install-modal .ant-modal-header {
+    padding: 16px 20px;
+  }
+
+  .pwa-install-modal .ant-modal-title {
+    font-size: 16px;
+  }
+
+  .pwa-install-modal .ant-modal-body {
+    padding: 20px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+
+  .app-info-card .ant-card-body {
+    padding: 12px;
+  }
+
+  .app-icon img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .ios-install-steps .ant-steps-item-title {
+    font-size: 13px;
+  }
+
+  .ios-install-steps .ant-steps-item-description {
+    font-size: 11px;
+  }
+
+  .install-benefits {
+    padding: 12px;
+  }
+
+  .install-benefits li {
+    font-size: 13px;
+  }
+
+  .install-actions .ant-btn {
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pwa-install-fab {
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .pwa-install-fab .ant-btn {
+    height: 40px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .pwa-install-modal .ant-modal-header {
+    padding: 12px 16px;
+  }
+
+  .pwa-install-modal .ant-modal-body {
+    padding: 16px;
+  }
+
+  .app-info-card .ant-row {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .app-info-card .ant-col {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .app-info-card .ant-col:last-child {
+    margin-bottom: 0;
+  }
+
+  .ios-install-demo img {
+    max-width: 250px;
+  }
+
+  .install-actions .ant-row {
+    flex-direction: column;
+  }
+
+  .install-actions .ant-col {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .install-actions .ant-col:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* 动画效果 */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 12px rgba(24, 144, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(24, 144, 255, 0.6);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(24, 144, 255, 0.4);
+  }
+}
+
+.pwa-install-fab .ant-btn {
+  animation: pulse 2s infinite;
+}
+
+/* 安装成功状态 */
+.install-success {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.install-success .ant-result-icon {
+  margin-bottom: 20px;
+}
+
+.install-success .ant-result-title {
+  color: #52c41a;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.install-success .ant-result-subtitle {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 离线状态提示 */
+.offline-notice {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #faad14;
+  color: #fff;
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 12px;
+  z-index: 1001;
+  animation: slideInDown 0.3s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 更新提示 */
+.update-available {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1890ff;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 24px;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.4);
+  z-index: 1000;
+  animation: slideInUp 0.5s ease-out;
+}
+
+.update-available .ant-btn {
+  margin-left: 12px;
+  height: 28px;
+  padding: 0 12px;
+  font-size: 12px;
+  border: 1px solid #fff;
+  color: #1890ff;
+  background: #fff;
+}
+
+.update-available .ant-btn:hover {
+  background: #f0f8ff;
+  border-color: #f0f8ff;
+}
