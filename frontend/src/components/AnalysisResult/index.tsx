@@ -17,7 +17,8 @@ import {
   Button,
   Tooltip,
   Badge,
-  Divider
+  Divider,
+  Tabs
 } from 'antd'
 import {
   TrophyOutlined,
@@ -30,12 +31,17 @@ import {
   BarChartOutlined,
   CheckCircleOutlined,
   ExclamationCircleOutlined,
-  InfoCircleOutlined
+  InfoCircleOutlined,
+  LineChartOutlined,
+  PieChartOutlined
 } from '@ant-design/icons'
+import AnalysisChart from '../DataVisualization/AnalysisChart'
+import TrendAnalysis from '../DataVisualization/TrendAnalysis'
 import './AnalysisResult.css'
 
 const { Title, Text, Paragraph } = Typography
 const { Panel } = Collapse
+const { TabPane } = Tabs
 
 interface AnalysisData {
   id: string
@@ -68,6 +74,8 @@ interface AnalysisResultProps {
   onOptimize?: (analysisId: string) => void
   onReanalyze?: (analysisId: string) => void
   showDetails?: boolean
+  historicalData?: AnalysisData[]
+  showVisualization?: boolean
 }
 
 const AnalysisResult: React.FC<AnalysisResultProps> = ({
@@ -75,9 +83,12 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({
   loading = false,
   onOptimize,
   onReanalyze,
-  showDetails = true
+  showDetails = true,
+  historicalData = [],
+  showVisualization = true
 }) => {
   const [activeKey, setActiveKey] = useState<string[]>(['overview'])
+  const [activeTab, setActiveTab] = useState('overview')
 
   // 获取评分颜色
   const getScoreColor = (score: number) => {
@@ -237,11 +248,21 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({
       {/* 详细分析 */}
       {showDetails && (
         <Card title="详细分析" style={{ marginTop: 16 }}>
-          <Collapse
-            activeKey={activeKey}
-            onChange={setActiveKey}
-            ghost
-          >
+          <Tabs activeKey={activeTab} onChange={setActiveTab} type="card">
+            <TabPane
+              tab={
+                <Space>
+                  <InfoCircleOutlined />
+                  <span>分析详情</span>
+                </Space>
+              }
+              key="details"
+            >
+              <Collapse
+                activeKey={activeKey}
+                onChange={setActiveKey}
+                ghost
+              >
             {/* 维度评分 */}
             <Panel
               header={
@@ -409,7 +430,55 @@ const AnalysisResult: React.FC<AnalysisResultProps> = ({
                 <Text code>{data.id}</Text>
               </Paragraph>
             </Panel>
-          </Collapse>
+              </Collapse>
+            </TabPane>
+
+            {/* 可视化分析标签页 */}
+            {showVisualization && (
+              <TabPane
+                tab={
+                  <Space>
+                    <BarChartOutlined />
+                    <span>可视化分析</span>
+                  </Space>
+                }
+                key="visualization"
+              >
+                <AnalysisChart
+                  data={historicalData.length > 0 ? historicalData : [data]}
+                  loading={loading}
+                  title="分析结果趋势"
+                  height={400}
+                />
+              </TabPane>
+            )}
+
+            {/* 趋势分析标签页 */}
+            {showVisualization && historicalData.length > 1 && (
+              <TabPane
+                tab={
+                  <Space>
+                    <LineChartOutlined />
+                    <span>趋势分析</span>
+                  </Space>
+                }
+                key="trend"
+              >
+                <TrendAnalysis
+                  title="评分趋势分析"
+                  data={historicalData.map(item => ({
+                    timestamp: item.created_at,
+                    value: item.overall_score
+                  }))}
+                  loading={loading}
+                  unit="分"
+                  precision={1}
+                  showComparison={true}
+                  showPrediction={true}
+                />
+              </TabPane>
+            )}
+          </Tabs>
         </Card>
       )}
     </div>

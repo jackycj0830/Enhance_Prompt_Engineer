@@ -1,0 +1,357 @@
+/* 趋势分析组件样式 */
+
+.trend-analysis {
+  width: 100%;
+}
+
+.trend-analysis .ant-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.trend-analysis .ant-card-head {
+  border-bottom: 1px solid #f0f0f0;
+  background: linear-gradient(90deg, #fafafa 0%, #ffffff 100%);
+}
+
+.trend-analysis .ant-card-head-title {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* 统计卡片样式 */
+.stat-card {
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: #1890ff;
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.stat-card .ant-card-body {
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-card .ant-statistic {
+  margin: 0;
+}
+
+.stat-card .ant-statistic-title {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.stat-card .ant-statistic-content {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.stat-card .ant-statistic-content-value {
+  color: #1890ff;
+}
+
+.stat-card .ant-statistic-content-suffix {
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+/* 趋势图表区域 */
+.trend-chart {
+  margin: 16px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 数据洞察区域 */
+.trend-insights {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.trend-insights .ant-typography {
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+.insight-item {
+  text-align: center;
+  padding: 12px;
+  background: #fafafa;
+  border-radius: 6px;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.insight-item:hover {
+  background: #f0f8ff;
+  border-color: #1890ff;
+}
+
+.insight-label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.insight-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1890ff;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 告警样式 */
+.trend-analysis .ant-alert {
+  border-radius: 6px;
+  border: none;
+}
+
+.trend-analysis .ant-alert-success {
+  background: linear-gradient(135deg, #f6ffed 0%, #f0f9ff 100%);
+  border-left: 4px solid #52c41a;
+}
+
+.trend-analysis .ant-alert-warning {
+  background: linear-gradient(135deg, #fff7e6 0%, #fffbe6 100%);
+  border-left: 4px solid #faad14;
+}
+
+.trend-analysis .ant-alert-info {
+  background: linear-gradient(135deg, #e6f7ff 0%, #f0f8ff 100%);
+  border-left: 4px solid #1890ff;
+}
+
+/* 标签样式 */
+.trend-analysis .ant-tag {
+  border-radius: 4px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border: none;
+  font-size: 12px;
+}
+
+.trend-analysis .ant-tag-green {
+  background: #f6ffed;
+  color: #52c41a;
+}
+
+.trend-analysis .ant-tag-red {
+  background: #fff2f0;
+  color: #ff4d4f;
+}
+
+.trend-analysis .ant-tag-blue {
+  background: #e6f7ff;
+  color: #1890ff;
+}
+
+/* 选择器样式 */
+.trend-analysis .ant-select {
+  border-radius: 6px;
+}
+
+.trend-analysis .ant-select-selector {
+  border-color: #d9d9d9;
+}
+
+.trend-analysis .ant-select-focused .ant-select-selector {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* 图标样式 */
+.trend-analysis .anticon {
+  font-size: 14px;
+}
+
+.trend-analysis .ant-statistic-content .anticon {
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .stat-card .ant-statistic-content {
+    font-size: 18px;
+  }
+  
+  .insight-value {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .trend-analysis .ant-card-extra {
+    margin-top: 12px;
+  }
+  
+  .trend-analysis .ant-card-extra .ant-select {
+    width: 100%;
+  }
+  
+  .stat-card .ant-card-body {
+    padding: 12px;
+  }
+  
+  .stat-card .ant-statistic-content {
+    font-size: 16px;
+  }
+  
+  .stat-card .ant-statistic-title {
+    font-size: 11px;
+  }
+  
+  .trend-insights .ant-col {
+    margin-bottom: 12px;
+  }
+  
+  .insight-item {
+    padding: 8px;
+  }
+  
+  .insight-value {
+    font-size: 12px;
+  }
+  
+  .insight-label {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .trend-analysis .ant-row {
+    margin: 0 -4px;
+  }
+  
+  .trend-analysis .ant-col {
+    padding: 0 4px;
+  }
+  
+  .stat-card .ant-card-body {
+    padding: 8px;
+  }
+  
+  .stat-card .ant-statistic-content {
+    font-size: 14px;
+  }
+  
+  .trend-insights {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+  
+  .insight-item {
+    padding: 6px;
+  }
+}
+
+/* 加载状态 */
+.trend-analysis .trend-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: #666;
+}
+
+/* 空状态 */
+.trend-analysis .trend-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+}
+
+/* 动画效果 */
+.trend-analysis {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 统计卡片动画 */
+.stat-card {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 洞察项动画 */
+.insight-item {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.insight-item:nth-child(1) { animation-delay: 0.5s; }
+.insight-item:nth-child(2) { animation-delay: 0.6s; }
+.insight-item:nth-child(3) { animation-delay: 0.7s; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 趋势指示器 */
+.trend-indicator {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.trend-indicator.up {
+  background: #f6ffed;
+  color: #52c41a;
+}
+
+.trend-indicator.down {
+  background: #fff2f0;
+  color: #ff4d4f;
+}
+
+.trend-indicator.stable {
+  background: #e6f7ff;
+  color: #1890ff;
+}
+
+.trend-indicator .anticon {
+  margin-right: 4px;
+}
