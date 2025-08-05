@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import PromptManagement from './pages/PromptManagement'
 import TemplateManagement from './pages/TemplateManagement'
+import MonitoringPage from './pages/MonitoringPage'
 import './App.css'
 
 const { Content } = Layout
@@ -85,6 +86,12 @@ const App: React.FC = () => {
               <Route path="/templates" element={
                 <ProtectedRoute>
                   <TemplateManagement />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/monitoring" element={
+                <ProtectedRoute>
+                  <MonitoringPage />
                 </ProtectedRoute>
               } />
 

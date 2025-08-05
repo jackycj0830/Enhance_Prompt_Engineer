@@ -375,6 +375,79 @@ export const templateApi = {
   },
 }
 
+// 监控API
+export const monitoringApi = {
+  // 获取监控概览
+  getOverview: (params?: { time_range?: string }): Promise<any> => {
+    return api.get('/monitoring/overview', { params })
+  },
+
+  // 获取系统指标
+  getSystemMetrics: (): Promise<any> => {
+    return api.get('/monitoring/system/metrics')
+  },
+
+  // 获取时间序列数据
+  getTimeSeriesData: (params: {
+    metric_name: string
+    time_range?: string
+    interval?: string
+  }): Promise<any> => {
+    return api.get('/monitoring/metrics/timeseries', { params })
+  },
+
+  // 获取API指标
+  getApiMetrics: (params?: {
+    endpoint?: string
+    time_range?: string
+    page?: number
+    page_size?: number
+  }): Promise<any> => {
+    return api.get('/monitoring/api/metrics', { params })
+  },
+
+  // 获取AI模型指标
+  getAiMetrics: (params?: {
+    provider?: string
+    model_name?: string
+    time_range?: string
+    page?: number
+    page_size?: number
+  }): Promise<any> => {
+    return api.get('/monitoring/ai/metrics', { params })
+  },
+
+  // 获取告警规则
+  getAlertRules: (params?: { is_active?: boolean }): Promise<any> => {
+    return api.get('/monitoring/alerts/rules', { params })
+  },
+
+  // 创建告警规则
+  createAlertRule: (data: any): Promise<any> => {
+    return api.post('/monitoring/alerts/rules', data)
+  },
+
+  // 获取告警列表
+  getAlerts: (params?: {
+    status_filter?: string
+    severity?: string
+    page?: number
+    page_size?: number
+  }): Promise<any> => {
+    return api.get('/monitoring/alerts', { params })
+  },
+
+  // 确认告警
+  acknowledgeAlert: (alertId: string): Promise<any> => {
+    return api.post(`/monitoring/alerts/${alertId}/acknowledge`)
+  },
+
+  // 获取监控统计
+  getStats: (params?: { time_range?: string }): Promise<any> => {
+    return api.get('/monitoring/stats', { params })
+  },
+}
+
 // 模板相关API
 export interface Template {
   id: string
