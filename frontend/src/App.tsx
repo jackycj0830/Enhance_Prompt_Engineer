@@ -6,6 +6,7 @@ import { initializeAuth } from './stores/authStore'
 import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import PromptManagement from './pages/PromptManagement'
 import './App.css'
 
 const { Content } = Layout
@@ -70,7 +71,7 @@ const App: React.FC = () => {
               {/* 其他受保护的路由将在后续添加 */}
               <Route path="/prompts" element={
                 <ProtectedRoute>
-                  <div>提示词管理页面（开发中）</div>
+                  <PromptManagement />
                 </ProtectedRoute>
               } />
 

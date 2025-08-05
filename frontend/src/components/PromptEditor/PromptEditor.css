@@ -1,0 +1,255 @@
+/* 提示词编辑器样式 */
+
+.prompt-editor {
+  width: 100%;
+}
+
+.prompt-editor .ant-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.prompt-editor .ant-card-head {
+  border-bottom: 1px solid #f0f0f0;
+  background: linear-gradient(90deg, #fafafa 0%, #ffffff 100%);
+}
+
+.prompt-editor .ant-card-head-title {
+  font-weight: 600;
+}
+
+/* 编辑区域 */
+.editor-content {
+  position: relative;
+}
+
+.prompt-textarea {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.prompt-textarea:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.prompt-textarea.ant-input {
+  resize: vertical;
+}
+
+/* 元数据区域 */
+.editor-metadata {
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 6px;
+  border: 1px solid #f0f0f0;
+}
+
+.editor-metadata .ant-select {
+  border-radius: 4px;
+}
+
+/* 指标区域 */
+.editor-metrics {
+  padding: 16px;
+  background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
+  border-radius: 6px;
+  border: 1px solid #e8f4fd;
+}
+
+.editor-metrics .ant-statistic {
+  text-align: center;
+}
+
+.editor-metrics .ant-statistic-title {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.editor-metrics .ant-statistic-content {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.editor-metrics .ant-tag {
+  margin-top: 4px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* 操作按钮区域 */
+.editor-actions {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 16px;
+}
+
+.editor-actions .ant-btn {
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.editor-actions .ant-btn-primary {
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  border: none;
+}
+
+.editor-actions .ant-btn-primary:hover {
+  background: linear-gradient(135deg, #40a9ff 0%, #1890ff 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+}
+
+.editor-actions .ant-btn-default:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+  transform: translateY(-1px);
+}
+
+/* 提示信息区域 */
+.editor-tips {
+  padding: 12px 16px;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  border-radius: 6px;
+  margin-top: 16px;
+}
+
+.editor-tips .anticon {
+  margin-right: 8px;
+}
+
+/* 模板选择器 */
+.ant-select-dropdown {
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ant-select-item {
+  border-radius: 4px;
+  margin: 2px 4px;
+}
+
+.ant-select-item-option-selected {
+  background: #e6f7ff;
+  color: #1890ff;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .editor-metadata .ant-row {
+    flex-direction: column;
+  }
+  
+  .editor-metadata .ant-col {
+    width: 100% !important;
+    margin-bottom: 12px;
+  }
+  
+  .editor-metadata .ant-col:last-child {
+    margin-bottom: 0;
+  }
+  
+  .editor-metrics .ant-row {
+    flex-direction: column;
+  }
+  
+  .editor-metrics .ant-col {
+    width: 100% !important;
+    margin-bottom: 16px;
+    text-align: left !important;
+  }
+  
+  .editor-metrics .ant-col:last-child {
+    margin-bottom: 0;
+  }
+  
+  .editor-actions {
+    text-align: center;
+  }
+  
+  .editor-actions .ant-space {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .editor-actions .ant-btn {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}
+
+/* 加载状态 */
+.prompt-editor.loading {
+  position: relative;
+}
+
+.prompt-editor.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  border-radius: 8px;
+}
+
+/* 禁用状态 */
+.prompt-editor.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* 字数统计样式增强 */
+.ant-input-show-count-suffix {
+  color: #999;
+  font-size: 12px;
+}
+
+.ant-input-textarea-show-count::after {
+  color: #999;
+  font-size: 12px;
+}
+
+/* 标签样式增强 */
+.ant-tag {
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 2px 8px;
+  margin: 2px;
+}
+
+.ant-tag-green {
+  background: #f6ffed;
+  border-color: #b7eb8f;
+  color: #52c41a;
+}
+
+.ant-tag-orange {
+  background: #fff7e6;
+  border-color: #ffd591;
+  color: #fa8c16;
+}
+
+.ant-tag-red {
+  background: #fff2f0;
+  border-color: #ffccc7;
+  color: #ff4d4f;
+}
+
+/* 统计数字动画 */
+.ant-statistic-content-value {
+  transition: all 0.3s ease;
+}
+
+.ant-statistic-content-value.updating {
+  color: #1890ff;
+  transform: scale(1.1);
+}

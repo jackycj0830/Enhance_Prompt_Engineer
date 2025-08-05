@@ -292,6 +292,24 @@ export const optimizationApi = {
   deleteSuggestion: (id: string): Promise<{ message: string }> => {
     return api.delete(`/optimization/${id}`)
   },
+
+  // 批量应用优化建议
+  applyMultipleSuggestions: (data: {
+    suggestion_ids: string[]
+    original_prompt: string
+  }): Promise<any> => {
+    return api.post('/optimization/apply-suggestions', data)
+  },
+
+  // 获取优化效果统计
+  getOptimizationEffectiveness: (analysisId: string): Promise<any> => {
+    return api.get(`/optimization/effectiveness/${analysisId}`)
+  },
+
+  // 获取用户优化统计
+  getUserOptimizationStats: (): Promise<any> => {
+    return api.get('/optimization/user-stats')
+  },
 }
 
 // 模板相关API

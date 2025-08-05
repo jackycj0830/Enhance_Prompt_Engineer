@@ -151,13 +151,13 @@ const Dashboard: React.FC = () => {
       title: '创建提示词',
       description: '开始创建新的提示词',
       icon: <PlusOutlined />,
-      action: () => navigate('/prompts/create'),
+      action: () => navigate('/prompts'),
     },
     {
       title: '分析提示词',
       description: '分析现有提示词的质量',
       icon: <AnalyticsOutlined />,
-      action: () => navigate('/analysis/new'),
+      action: () => navigate('/prompts'),
     },
     {
       title: '浏览模板',
