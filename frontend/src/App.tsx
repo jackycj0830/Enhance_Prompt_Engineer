@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import PromptManagement from './pages/PromptManagement'
+import TemplateManagement from './pages/TemplateManagement'
 import './App.css'
 
 const { Content } = Layout
@@ -83,7 +84,7 @@ const App: React.FC = () => {
 
               <Route path="/templates" element={
                 <ProtectedRoute>
-                  <div>模板库页面（开发中）</div>
+                  <TemplateManagement />
                 </ProtectedRoute>
               } />
 

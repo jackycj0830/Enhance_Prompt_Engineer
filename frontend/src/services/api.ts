@@ -312,6 +312,69 @@ export const optimizationApi = {
   },
 }
 
+// 模板API
+export const templateApi = {
+  // 获取模板列表
+  getTemplates: (params?: any): Promise<any> => {
+    return api.get('/templates', { params })
+  },
+
+  // 获取单个模板
+  getTemplate: (id: string): Promise<any> => {
+    return api.get(`/templates/${id}`)
+  },
+
+  // 创建模板
+  createTemplate: (data: any): Promise<any> => {
+    return api.post('/templates', data)
+  },
+
+  // 更新模板
+  updateTemplate: (id: string, data: any): Promise<any> => {
+    return api.put(`/templates/${id}`, data)
+  },
+
+  // 删除模板
+  deleteTemplate: (id: string): Promise<any> => {
+    return api.delete(`/templates/${id}`)
+  },
+
+  // 使用模板
+  useTemplate: (id: string): Promise<any> => {
+    return api.post(`/templates/${id}/use`)
+  },
+
+  // 评分模板
+  rateTemplate: (id: string, data: { rating: number; comment?: string }): Promise<any> => {
+    return api.post(`/templates/${id}/rate`, data)
+  },
+
+  // 获取热门模板
+  getPopularTemplates: (params?: { limit?: number }): Promise<any> => {
+    return api.get('/templates/popular/list', { params })
+  },
+
+  // 获取推荐模板
+  getFeaturedTemplates: (params?: { limit?: number }): Promise<any> => {
+    return api.get('/templates/featured/list', { params })
+  },
+
+  // 获取最新模板
+  getRecentTemplates: (params?: { limit?: number }): Promise<any> => {
+    return api.get('/templates/recent/list', { params })
+  },
+
+  // 获取分类列表
+  getCategories: (): Promise<any> => {
+    return api.get('/templates/categories/list')
+  },
+
+  // 获取标签列表
+  getTags: (params?: { featured_only?: boolean; limit?: number }): Promise<any> => {
+    return api.get('/templates/tags/list', { params })
+  },
+}
+
 // 模板相关API
 export interface Template {
   id: string

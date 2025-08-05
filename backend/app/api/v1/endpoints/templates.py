@@ -4,74 +4,110 @@
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from uuid import UUID
+import asyncio
 
 from config.database import get_db
 from app.models.user import User
-from app.models.template import Template, TemplateRating, TemplateUsage
+from app.models.template import Template, TemplateRating, TemplateUsage, TemplateCategory, TemplateTag
 from app.api.v1.endpoints.auth import get_current_user
+from app.services.template_service import get_template_service
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=dict)
 async def get_templates(
-    skip: int = Query(0, ge=0),
-    limit: int = Query(20, ge=1, le=100),
-    category: Optional[str] = None,
-    is_featured: Optional[bool] = None,
-    is_public: bool = True,
+    query: Optional[str] = Query(None, description="搜索关键词"),
+    category: Optional[str] = Query(None, description="分类"),
+    tags: Optional[str] = Query(None, description="标签，逗号分隔"),
+    industry: Optional[str] = Query(None, description="行业"),
+    difficulty_level: Optional[str] = Query(None, description="难度级别"),
+    language: Optional[str] = Query(None, description="语言"),
+    is_featured: Optional[bool] = Query(None, description="是否推荐"),
+    is_verified: Optional[bool] = Query(None, description="是否认证"),
+    creator_id: Optional[str] = Query(None, description="创建者ID"),
+    sort_by: str = Query("created_at", description="排序字段"),
+    sort_order: str = Query("desc", description="排序方向"),
+    page: int = Query(1, ge=1, description="页码"),
+    page_size: int = Query(20, ge=1, le=100, description="每页数量"),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """获取模板列表"""
-    query = db.query(Template)
-    
-    if is_public:
-        query = query.filter(Template.is_public == True)
-    else:
-        # 只显示用户自己的模板
-        query = query.filter(Template.creator_id == current_user.id)
-    
-    if category:
-        query = query.filter(Template.category == category)
-    
-    if is_featured is not None:
-        query = query.filter(Template.is_featured == is_featured)
-    
-    templates = query.order_by(Template.rating.desc(), Template.usage_count.desc()).offset(skip).limit(limit).all()
-    total = query.count()
-    
-    return {
-        "items": [template.to_dict() for template in templates],
-        "total": total,
-        "skip": skip,
-        "limit": limit
-    }
+    template_service = get_template_service(db)
 
-@router.post("/")
+    # 处理标签参数
+    tag_list = None
+    if tags:
+        tag_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
+
+    try:
+        templates, total = await template_service.search_templates(
+            query=query,
+            category=category,
+            tags=tag_list,
+            industry=industry,
+            difficulty_level=difficulty_level,
+            language=language,
+            is_featured=is_featured,
+            is_verified=is_verified,
+            creator_id=creator_id,
+            user_id=str(current_user.id),
+            sort_by=sort_by,
+            sort_order=sort_order,
+            page=page,
+            page_size=page_size
+        )
+
+        return {
+            "templates": [template.to_dict(include_content=False) for template in templates],
+            "total": total,
+            "page": page,
+            "page_size": page_size,
+            "total_pages": (total + page_size - 1) // page_size
+        }
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"获取模板列表失败: {str(e)}"
+        )
+
+@router.post("/", response_model=dict)
 async def create_template(
-    template_data: dict,
+    request: Dict[str, Any],
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """创建新模板"""
-    template = Template(
-        creator_id=current_user.id,
-        name=template_data["name"],
-        description=template_data.get("description"),
-        content=template_data["content"],
-        category=template_data.get("category"),
-        tags=template_data.get("tags", []),
-        is_public=template_data.get("is_public", True),
-        is_featured=False  # 只有管理员可以设置推荐
-    )
-    
-    db.add(template)
-    db.commit()
-    db.refresh(template)
-    
-    return template.to_dict()
+    template_service = get_template_service(db)
+
+    try:
+        template = await template_service.create_template(
+            creator_id=str(current_user.id),
+            name=request.get("name"),
+            content=request.get("content"),
+            description=request.get("description"),
+            category=request.get("category"),
+            tags=request.get("tags", []),
+            industry=request.get("industry"),
+            use_case=request.get("use_case"),
+            difficulty_level=request.get("difficulty_level", "beginner"),
+            is_public=request.get("is_public", True),
+            metadata=request.get("metadata", {})
+        )
+
+        return {
+            "template": template.to_dict(),
+            "message": "模板创建成功"
+        }
+
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
 
 @router.get("/{template_id}")
 async def get_template(
@@ -261,3 +297,84 @@ async def get_template_categories(db: Session = Depends(get_db)):
     ).distinct().all()
     
     return [cat[0] for cat in categories if cat[0]]
+
+# 获取热门模板
+@router.get("/popular/list", response_model=dict)
+async def get_popular_templates(
+    limit: int = Query(10, ge=1, le=50, description="数量限制"),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """获取热门模板"""
+    template_service = get_template_service(db)
+
+    templates = await template_service.get_popular_templates(limit)
+
+    return {
+        "templates": [template.to_dict(include_content=False) for template in templates]
+    }
+
+# 获取推荐模板
+@router.get("/featured/list", response_model=dict)
+async def get_featured_templates(
+    limit: int = Query(10, ge=1, le=50, description="数量限制"),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """获取推荐模板"""
+    template_service = get_template_service(db)
+
+    templates = await template_service.get_featured_templates(limit)
+
+    return {
+        "templates": [template.to_dict(include_content=False) for template in templates]
+    }
+
+# 获取最新模板
+@router.get("/recent/list", response_model=dict)
+async def get_recent_templates(
+    limit: int = Query(10, ge=1, le=50, description="数量限制"),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """获取最新模板"""
+    template_service = get_template_service(db)
+
+    templates = await template_service.get_recent_templates(limit)
+
+    return {
+        "templates": [template.to_dict(include_content=False) for template in templates]
+    }
+
+# 获取分类列表
+@router.get("/categories/list", response_model=dict)
+async def get_categories(
+    db: Session = Depends(get_db)
+):
+    """获取模板分类列表"""
+    categories = db.query(TemplateCategory).filter(
+        TemplateCategory.is_active == True
+    ).order_by(TemplateCategory.sort_order, TemplateCategory.name).all()
+
+    return {
+        "categories": [category.to_dict() for category in categories]
+    }
+
+# 获取标签列表
+@router.get("/tags/list", response_model=dict)
+async def get_tags(
+    featured_only: bool = Query(False, description="只获取推荐标签"),
+    limit: int = Query(50, ge=1, le=200, description="数量限制"),
+    db: Session = Depends(get_db)
+):
+    """获取模板标签列表"""
+    query = db.query(TemplateTag)
+
+    if featured_only:
+        query = query.filter(TemplateTag.is_featured == True)
+
+    tags = query.order_by(TemplateTag.usage_count.desc()).limit(limit).all()
+
+    return {
+        "tags": [tag.to_dict() for tag in tags]
+    }

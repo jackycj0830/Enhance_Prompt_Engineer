@@ -1,0 +1,339 @@
+/* 模板库组件样式 */
+
+.template-library {
+  width: 100%;
+  padding: 24px;
+}
+
+.template-library.embedded {
+  padding: 16px;
+}
+
+/* 搜索筛选卡片 */
+.search-filter-card {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-filter-card .ant-card-body {
+  padding: 20px;
+}
+
+/* 模板卡片样式 */
+.template-card {
+  height: 100%;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.template-card:hover {
+  border-color: #1890ff;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.template-card .ant-card-body {
+  padding: 16px;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.template-card-header {
+  margin-bottom: 12px;
+}
+
+.template-title {
+  margin-bottom: 8px;
+}
+
+.template-title .ant-typography {
+  margin: 0;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.template-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.template-tags {
+  margin-bottom: 12px;
+  min-height: 24px;
+}
+
+.template-tags .ant-tag {
+  margin-bottom: 4px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.template-stats {
+  margin-bottom: 12px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.template-stats .ant-rate {
+  font-size: 14px;
+}
+
+.template-footer {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* 列表项样式 */
+.template-list-item {
+  margin-bottom: 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.template-list-item:hover {
+  border-color: #1890ff;
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.15);
+}
+
+.template-list-item .ant-card-body {
+  padding: 16px;
+}
+
+.template-info .ant-typography {
+  margin: 0;
+}
+
+/* 模板详情模态框 */
+.template-detail {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.content-preview {
+  background: #f6f8fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.content-preview pre {
+  margin: 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.template-metadata {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .template-library {
+    padding: 16px;
+  }
+  
+  .search-filter-card .ant-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .search-filter-card .ant-col {
+    width: 100% !important;
+  }
+  
+  .template-card .ant-card-body {
+    height: auto;
+    min-height: 240px;
+  }
+  
+  .template-list-item .ant-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .template-list-item .ant-col {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .template-library {
+    padding: 12px;
+  }
+  
+  .search-filter-card .ant-card-body {
+    padding: 16px;
+  }
+  
+  .template-card .ant-card-body {
+    padding: 12px;
+    height: auto;
+    min-height: 200px;
+  }
+  
+  .template-card-header {
+    margin-bottom: 8px;
+  }
+  
+  .template-title .ant-typography {
+    font-size: 14px;
+  }
+  
+  .template-stats {
+    margin-bottom: 8px;
+  }
+  
+  .template-footer {
+    padding-top: 8px;
+  }
+}
+
+/* 加载状态 */
+.template-library .ant-spin-container {
+  min-height: 200px;
+}
+
+/* 空状态 */
+.template-library .ant-empty {
+  padding: 40px 20px;
+}
+
+/* 分页样式 */
+.template-library .ant-pagination {
+  margin-top: 32px;
+}
+
+/* 标签样式增强 */
+.ant-tag {
+  border-radius: 4px;
+  font-weight: 500;
+  border: none;
+}
+
+.ant-tag.ant-tag-green {
+  background: #f6ffed;
+  color: #52c41a;
+}
+
+.ant-tag.ant-tag-orange {
+  background: #fff7e6;
+  color: #fa8c16;
+}
+
+.ant-tag.ant-tag-red {
+  background: #fff2f0;
+  color: #ff4d4f;
+}
+
+/* 评分样式 */
+.ant-rate {
+  color: #faad14;
+}
+
+.ant-rate-star {
+  margin-right: 2px;
+}
+
+/* 按钮样式 */
+.template-library .ant-btn {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.template-library .ant-btn-primary {
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  border: none;
+}
+
+.template-library .ant-btn-primary:hover {
+  background: linear-gradient(135deg, #40a9ff 0%, #1890ff 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+}
+
+/* 卡片操作按钮 */
+.template-card .ant-card-actions {
+  border-top: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.template-card .ant-card-actions > li {
+  margin: 8px 0;
+}
+
+.template-card .ant-card-actions > li > span {
+  color: #666;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.template-card .ant-card-actions > li > span:hover {
+  color: #1890ff;
+  transform: scale(1.1);
+}
+
+/* 徽章样式 */
+.ant-badge {
+  line-height: 1;
+}
+
+.ant-badge-count {
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+  border: none;
+}
+
+/* 动画效果 */
+.template-card,
+.template-list-item {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 滚动条样式 */
+.template-detail::-webkit-scrollbar,
+.content-preview::-webkit-scrollbar {
+  width: 6px;
+}
+
+.template-detail::-webkit-scrollbar-track,
+.content-preview::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.template-detail::-webkit-scrollbar-thumb,
+.content-preview::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.template-detail::-webkit-scrollbar-thumb:hover,
+.content-preview::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
