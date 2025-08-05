@@ -1,0 +1,175 @@
+/* App 组件特定样式 */
+.app-header {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+}
+
+.app-logo .anticon {
+  font-size: 24px;
+  color: #1890ff;
+  margin-right: 12px;
+}
+
+.app-content {
+  padding: 24px;
+  min-height: calc(100vh - 64px - 70px); /* 减去header和footer高度 */
+}
+
+.app-footer {
+  text-align: center;
+  background: #f0f2f5;
+  padding: 24px;
+  border-top: 1px solid #e8e8e8;
+}
+
+/* 首页样式 */
+.home-container {
+  text-align: center;
+  padding: 50px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.home-icon {
+  font-size: 64px;
+  color: #1890ff;
+  margin-bottom: 24px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.home-title {
+  margin-bottom: 16px !important;
+  background: linear-gradient(135deg, #1890ff, #722ed1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.home-description {
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto 32px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.home-actions {
+  margin-bottom: 48px;
+}
+
+.home-status {
+  margin-top: 48px;
+  padding: 24px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  border-left: 4px solid #1890ff;
+}
+
+.home-status .ant-typography-title {
+  color: #1890ff;
+  margin-bottom: 16px !important;
+}
+
+.home-status .ant-typography-paragraph {
+  text-align: left;
+  margin-bottom: 0 !important;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.status-item:last-child {
+  margin-bottom: 0;
+}
+
+.status-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.status-running {
+  color: #52c41a;
+}
+
+.status-pending {
+  color: #faad14;
+}
+
+.status-error {
+  color: #ff4d4f;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 30px 16px;
+  }
+  
+  .home-icon {
+    font-size: 48px;
+  }
+  
+  .home-title {
+    font-size: 24px !important;
+  }
+  
+  .home-description {
+    font-size: 16px;
+  }
+  
+  .home-actions .ant-btn {
+    margin-bottom: 12px;
+  }
+  
+  .home-status {
+    padding: 16px;
+    margin-top: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0 16px;
+  }
+  
+  .app-content {
+    padding: 16px;
+  }
+  
+  .home-container {
+    padding: 20px 12px;
+  }
+  
+  .home-actions .ant-space {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .home-actions .ant-btn {
+    width: 100%;
+  }
+}

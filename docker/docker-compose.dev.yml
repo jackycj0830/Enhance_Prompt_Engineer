@@ -1,0 +1,122 @@
+version: '3.8'
+
+services:
+  # PostgreSQL 数据库
+  postgres:
+    image: postgres:13
+    container_name: enhance_prompt_postgres
+    environment:
+      POSTGRES_DB: enhance_prompt_engineer
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - enhance_prompt_network
+    restart: unless-stopped
+
+  # Redis 缓存
+  redis:
+    image: redis:6-alpine
+    container_name: enhance_prompt_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - enhance_prompt_network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # 后端服务 (开发模式)
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.dev
+    container_name: enhance_prompt_backend
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres123@postgres:5432/enhance_prompt_engineer
+      - REDIS_URL=redis://redis:6379/0
+      - APP_ENV=development
+      - DEBUG=true
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../backend:/app
+      - /app/__pycache__
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - enhance_prompt_network
+    restart: unless-stopped
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # 前端服务 (开发模式)
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.dev
+    container_name: enhance_prompt_frontend
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000/api/v1
+      - VITE_APP_ENV=development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - enhance_prompt_network
+    restart: unless-stopped
+    command: npm run dev
+
+  # pgAdmin (数据库管理工具)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: enhance_prompt_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@enhanceprompt.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - enhance_prompt_network
+    restart: unless-stopped
+
+  # Redis Commander (Redis管理工具)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: enhance_prompt_redis_commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - enhance_prompt_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  enhance_prompt_network:
+    driver: bridge
