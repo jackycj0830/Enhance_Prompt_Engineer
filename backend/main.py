@@ -2,13 +2,42 @@
 Enhance Prompt Engineer - 主应用入口
 """
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
+from contextlib import asynccontextmanager
 import uvicorn
 import os
 from datetime import datetime
+
+# 导入配置和数据库
+from config.database import check_db_connection, check_redis_connection, init_db
+from app.api.v1 import api_router
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """应用生命周期管理"""
+    # 启动时执行
+    print("🚀 Enhance Prompt Engineer API 启动中...")
+
+    # 检查数据库连接
+    if not check_db_connection():
+        print("❌ 数据库连接失败")
+        raise Exception("数据库连接失败")
+
+    if not check_redis_connection():
+        print("❌ Redis连接失败")
+        raise Exception("Redis连接失败")
+
+    print("✅ 数据库连接正常")
+    print(f"📝 API文档: http://localhost:8000/docs")
+    print(f"🔍 健康检查: http://localhost:8000/health")
+
+    yield
+
+    # 关闭时执行
+    print("🛑 Enhance Prompt Engineer API 正在关闭...")
 
 # 创建FastAPI应用实例
 app = FastAPI(
@@ -16,7 +45,8 @@ app = FastAPI(
     description="专业的提示词分析与优化工具API",
     version="1.0.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    lifespan=lifespan
 )
 
 # CORS中间件配置
@@ -56,20 +86,8 @@ async def health_check():
         "service": "enhance-prompt-engineer-api"
     }
 
-# API版本路由组
-@app.get("/api/v1")
-async def api_v1_info():
-    """API v1 信息"""
-    return {
-        "version": "v1",
-        "endpoints": {
-            "auth": "/api/v1/auth",
-            "analysis": "/api/v1/analysis", 
-            "optimization": "/api/v1/optimization",
-            "templates": "/api/v1/templates",
-            "users": "/api/v1/users"
-        }
-    }
+# 包含API路由
+app.include_router(api_router, prefix="/api/v1")
 
 # 全局异常处理器
 @app.exception_handler(HTTPException)
@@ -98,19 +116,19 @@ async def general_exception_handler(request, exc):
         }
     )
 
-# 启动事件
-@app.on_event("startup")
-async def startup_event():
-    """应用启动事件"""
-    print("🚀 Enhance Prompt Engineer API 启动中...")
-    print(f"📝 API文档: http://localhost:8000/docs")
-    print(f"🔍 健康检查: http://localhost:8000/health")
+# 数据库状态检查端点
+@app.get("/api/v1/status")
+async def system_status():
+    """系统状态检查"""
+    db_status = check_db_connection()
+    redis_status = check_redis_connection()
 
-# 关闭事件
-@app.on_event("shutdown")
-async def shutdown_event():
-    """应用关闭事件"""
-    print("🛑 Enhance Prompt Engineer API 正在关闭...")
+    return {
+        "status": "healthy" if db_status and redis_status else "unhealthy",
+        "database": "connected" if db_status else "disconnected",
+        "redis": "connected" if redis_status else "disconnected",
+        "timestamp": datetime.now().isoformat()
+    }
 
 if __name__ == "__main__":
     # 开发环境直接运行
