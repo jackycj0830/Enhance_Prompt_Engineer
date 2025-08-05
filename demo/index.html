@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhance Prompt Engineer - 演示版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .demo-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .prompt-input {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .prompt-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .analyze-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#667eea 0deg, #764ba2 180deg, #e1e8ed 180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .score-circle::before {
+            content: '';
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .score-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            z-index: 1;
+        }
+
+        .suggestions {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .suggestions h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .suggestions ul {
+            list-style: none;
+        }
+
+        .suggestions li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .suggestions li:last-child {
+            border-bottom: none;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-content, .demo-section {
+                padding: 20px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🚀 Enhance Prompt Engineer</h1>
+            <p>专业的AI提示词分析与优化工具</p>
+        </header>
+
+        <main class="main-content">
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>智能分析</h3>
+                    <p>基于AI技术深度分析提示词的语义清晰度、结构完整性和逻辑连贯性</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>优化建议</h3>
+                    <p>提供具体可行的改进建议，帮助您创建更高质量的AI提示词</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>评分系统</h3>
+                    <p>多维度评分体系，量化分析提示词质量，让优化过程更加直观</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>模板管理</h3>
+                    <p>丰富的提示词模板库，支持自定义模板，提高工作效率</p>
+                </div>
+            </div>
+        </main>
+
+        <section class="demo-section">
+            <h2>🔍 在线体验</h2>
+            <textarea 
+                class="prompt-input" 
+                placeholder="请输入您的提示词内容，例如：&#10;&#10;你是一个专业的写作助手，请帮助用户改进文章质量。请仔细阅读用户提供的文章，从以下几个方面给出具体的改进建议：&#10;1. 语言表达的准确性和流畅性&#10;2. 逻辑结构的清晰性&#10;3. 内容的完整性和深度&#10;4. 格式和排版的规范性&#10;&#10;请提供具体的修改建议，并解释修改的原因。"
+                id="promptInput"
+            ></textarea>
+            <button class="analyze-btn" onclick="analyzePrompt()">开始分析</button>
+            
+            <div class="results" id="results">
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span class="score-text" id="scoreText">85</span>
+                    </div>
+                    <h3>综合评分</h3>
+                </div>
+                
+                <div class="suggestions">
+                    <h4>💡 优化建议</h4>
+                    <ul id="suggestionsList">
+                        <li>✨ 建议增加更具体的示例来说明期望的输出格式</li>
+                        <li>🎯 可以明确指定分析的深度和详细程度</li>
+                        <li>📝 考虑添加对特定文体或领域的针对性要求</li>
+                        <li>🔍 建议增加对用户背景或需求的了解环节</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2024 Enhance Prompt Engineer. 让AI提示词更加专业高效.</p>
+        </footer>
+    </div>
+
+    <script>
+        function analyzePrompt() {
+            const input = document.getElementById('promptInput');
+            const results = document.getElementById('results');
+            const scoreText = document.getElementById('scoreText');
+            const suggestionsList = document.getElementById('suggestionsList');
+            
+            if (!input.value.trim()) {
+                alert('请输入提示词内容');
+                return;
+            }
+            
+            // 模拟分析过程
+            const btn = document.querySelector('.analyze-btn');
+            btn.textContent = '分析中...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                // 模拟评分计算
+                const score = Math.floor(Math.random() * 20) + 75; // 75-95分
+                scoreText.textContent = score;
+                
+                // 更新评分圆环
+                const circle = document.querySelector('.score-circle');
+                const percentage = score / 100 * 360;
+                circle.style.background = `conic-gradient(#667eea 0deg, #764ba2 ${percentage}deg, #e1e8ed ${percentage}deg)`;
+                
+                // 根据内容生成建议
+                const suggestions = generateSuggestions(input.value, score);
+                suggestionsList.innerHTML = suggestions.map(s => `<li>${s}</li>`).join('');
+                
+                // 显示结果
+                results.style.display = 'block';
+                results.scrollIntoView({ behavior: 'smooth' });
+                
+                // 恢复按钮
+                btn.textContent = '重新分析';
+                btn.disabled = false;
+            }, 2000);
+        }
+        
+        function generateSuggestions(prompt, score) {
+            const suggestions = [];
+            
+            if (prompt.length < 50) {
+                suggestions.push('🔍 提示词内容较短，建议增加更详细的描述和要求');
+            }
+            
+            if (!prompt.includes('例如') && !prompt.includes('示例')) {
+                suggestions.push('✨ 建议增加具体示例来说明期望的输出格式');
+            }
+            
+            if (!prompt.includes('请') && !prompt.includes('需要')) {
+                suggestions.push('🎯 建议使用更明确的指令词，如"请"、"需要"等');
+            }
+            
+            if (score < 80) {
+                suggestions.push('📝 建议重新组织语言结构，提高表达的清晰度');
+            }
+            
+            if (score < 85) {
+                suggestions.push('🔧 考虑添加更多的约束条件和限制要求');
+            }
+            
+            if (suggestions.length === 0) {
+                suggestions.push('🎉 您的提示词质量很高！可以考虑针对特定场景进行微调');
+                suggestions.push('💡 建议测试不同的表达方式，找到最适合的版本');
+            }
+            
+            return suggestions;
+        }
+        
+        // 添加一些交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为特性卡片添加点击效果
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-5px)';
+                    }, 150);
+                });
+            });
+            
+            // 输入框字数统计
+            const input = document.getElementById('promptInput');
+            input.addEventListener('input', function() {
+                const length = this.value.length;
+                if (length > 0 && !document.querySelector('.char-count')) {
+                    const counter = document.createElement('div');
+                    counter.className = 'char-count';
+                    counter.style.cssText = 'text-align: right; color: #666; font-size: 14px; margin-top: 5px;';
+                    counter.textContent = `${length} 字符`;
+                    this.parentNode.insertBefore(counter, this.nextSibling);
+                } else if (length > 0) {
+                    document.querySelector('.char-count').textContent = `${length} 字符`;
+                } else if (document.querySelector('.char-count')) {
+                    document.querySelector('.char-count').remove();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
